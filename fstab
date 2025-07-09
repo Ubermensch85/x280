@@ -1,12 +1,10 @@
-# Static information about the filesystems.
-# See fstab(5) for details.
+# /dev/nvme0n1p2 (root)
+UUID=84bc92dc-9bee-40a3-a66e-22f82b029a04 / ext4 rw,relatime,commit=60 0 1
 
-# <file system> <dir> <type> <options> <dump> <pass>
-# /dev/nvme0n1p2
-UUID=84bc92dc-9bee-40a3-a66e-22f82b029a04	/         	ext4      	rw,defaults,noatime,commit=60			0 1
+# /dev/nvme0n1p1 (boot)
+UUID=90D3-F219 /boot vfat rw,noatime,nodiratime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro,x-systemd.automount 0 2
 
-# /dev/nvme0n1p1
-UUID=90D3-F219      	/boot     	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro	0 2
+# Temp directories
+tmpfs /tmp tmpfs rw,noatime,nodiratime,nodev,nosuid,size=1G,mode=1777 0 0
+tmpfs /var/tmp tmpfs rw,noatime,nodiratime,nodev,nosuid,size=500M,mode=1777 0 0
 
-tmpfs 			/tmp 		tmpfs 		defaults,noatime,mode=1777 					0 0
-tmpfs   		/var/tmp   	tmpfs   	defaults,noatime,mode=1777   					0 0
