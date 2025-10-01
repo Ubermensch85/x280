@@ -1,0 +1,83 @@
+/* STILE BASE */
+* {
+    all: unset;
+    font-family: "Iosevka Nerd Font";
+    font-size: 14px;
+    min-height: 0;
+}
+
+/* BARRA PRINCIPALE */
+window#waybar {
+    background-color: transparent;
+}
+
+/* CONTENITORE UNIFICATO - Sfondo trasparente uniforme */
+#waybar > box {
+    background-color: rgba(50, 50, 50, 0.65);  /* Grigio semitrasparente */
+    border-radius: 12px;
+    margin: 4px 10px;  /* Margini molto ridotti */
+    padding: 0 2px;
+    min-height: 28px;
+    border: 1px solid rgba(100, 100, 100, 0.2);  /* Bordo sottile per definizione */
+}
+
+/* MODULI COMPLETAMENTE TRASPARENTI */
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* ELEMENTI SENZA SFONDO */
+#workspaces,
+#cpu,
+#memory,
+#clock,
+#pulseaudio,
+#battery,
+#tray,
+#network,
+#temperature {
+    background-color: transparent;  /* Rimuove qualsiasi sfondo */
+    padding: 2px 8px;
+    margin: 0;
+    border-radius: 0;  /* Rimuove i bordi arrotondati individuali */
+}
+
+/* WORKSPACES */
+#workspaces button {
+    padding: 0 6px;
+    color: white; /* bianco per inattivi */
+    background-color: transparent;
+}
+
+#workspaces button.active {
+    color: #00BFFF; /* azzurro vivo */
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.7); /* alone azzurro */
+}
+
+/* ELEMENTI INTERATTIVI */
+#clock {
+    font-weight: bold;
+}
+
+#battery.critical {
+    color: #ff5555;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    to { opacity: 0.5; }
+}
+
+/* TOOLTIP */
+tooltip {
+    background-color: rgba(50, 50, 50, 0.9);
+    border-radius: 6px;
+    padding: 8px;
+}
+
+/* MODULO ICONA ARCH */
+
