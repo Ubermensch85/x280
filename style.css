@@ -1,4 +1,6 @@
-/* STILE BASE */
+/* ==================================== */
+/* 1. STILE BASE & FONT                 */
+/* ==================================== */
 * {
     all: unset;
     font-family: "Iosevka Nerd Font";
@@ -6,22 +8,27 @@
     min-height: 0;
 }
 
-/* BARRA PRINCIPALE */
+/* ==================================== */
+/* 2. BARRA PRINCIPALE E CONTENITORE    */
+/* ==================================== */
 window#waybar {
     background-color: transparent;
 }
 
-/* CONTENITORE UNIFICATO - Sfondo trasparente uniforme */
+/* Sfondo e forma del contenitore unificato dei moduli */
 #waybar > box {
-    background-color: rgba(50, 50, 50, 0.65);  /* Grigio semitrasparente della Waybar */
+    background-color: rgba(50, 50, 50, 0.65);  /* Grigio semitrasparente */
     border-radius: 12px;
-    margin: 4px 10px;  /* Margini molto ridotti */
+    margin: 4px 10px;
     padding: 0 2px;
     min-height: 28px;
-    border: 1px solid rgba(100, 100, 100, 0.2);  /* Bordo sottile per definizione */
+    border: 1px solid rgba(100, 100, 100, 0.2);
 }
 
-/* MODULI COMPLETAMENTE TRASPARENTI */
+/* ==================================== */
+/* 3. MODULI & ELEMENTI INTERNI         */
+/* ==================================== */
+/* Assicura che i contenitori di moduli siano trasparenti */
 .modules-left,
 .modules-center,
 .modules-right {
@@ -30,39 +37,38 @@ window#waybar {
     margin: 0;
 }
 
-/* ELEMENTI SENZA SFONDO */
-#workspaces,
-#cpu,
-#memory,
-#clock,
-#pulseaudio,
-#battery,
-#tray,
-#network,
-#temperature {
-    background-color: transparent;  /* Rimuove qualsiasi sfondo */
+/* Stile per i singoli elementi (senza sfondo e con padding) */
+#workspaces, #cpu, #memory, #clock, #pulseaudio, #battery, #tray, #temperature,
+#disk, #backlight, #custom-arch, #custom-updates, #custom-weather, #custom-gammastep,
+#custom-network { /* Aggiunto custom-network */
+    background-color: transparent;
     padding: 2px 8px;
     margin: 0;
-    border-radius: 0;  /* Rimuove i bordi arrotondati individuali */
+    border-radius: 0;
 }
 
-/* WORKSPACES */
-#workspaces button {
-    padding: 0 6px;
-    color: white; /* bianco per inattivi */
-    background-color: transparent;
-}
-
-#workspaces button.active {
-    color: #00BFFF; /* azzurro vivo */
-    text-shadow: 0 0 5px rgba(0, 191, 255, 0.7); /* alone azzurro */
-}
-
-/* ELEMENTI INTERATTIVI */
+/* Stile per gli elementi interattivi */
 #clock {
     font-weight: bold;
 }
 
+/* ==================================== */
+/* 4. WORKSPACES                        */
+/* ==================================== */
+#workspaces button {
+    padding: 0 6px;
+    color: white; /* Inattivi */
+    background-color: transparent;
+}
+
+#workspaces button.active {
+    color: #00BFFF; /* Azzurro vivo */
+    text-shadow: 0 0 5px rgba(0, 191, 255, 0.7);
+}
+
+/* ==================================== */
+/* 5. STATO & AVVISI                    */
+/* ==================================== */
 #battery.critical {
     color: #ff5555;
     animation: pulse 1s infinite alternate;
@@ -72,17 +78,26 @@ window#waybar {
     to { opacity: 0.5; }
 }
 
-/* TOOLTIP UNIFICATO (Calendario, Wi-Fi, ecc.) */
-tooltip {
-    /* Stile uniforme per tutti i tooltip (Wi-Fi, Clock, ecc.). */
-    /* Più scuro (40,40,40) e più opaco (0.9) per garantire la leggibilità del testo bianco. */
-    background-color: rgba(40, 40, 40, 0.9); 
-    border-radius: 6px;
-    padding: 8px;
-    border: 1px solid rgba(150, 150, 150, 0.2); 
+/* Stili per le classi aggiunte dallo script net-status.sh */
+#custom-network.vpn {
+    color: #4CAF50; /* Verde per la VPN */
+}
+#custom-network.disconnected {
+    color: #ff5555; /* Rosso per Disconnesso */
 }
 
-/* Assicura che il testo nel tooltip (etichette e pulsanti) sia leggibile */
+/* ==================================== */
+/* 6. TOOLTIP UNIFICATO                 */
+/* ==================================== */
+tooltip {
+    /* Stile uniforme per tutti i tooltip (Wi-Fi, Clock, ecc.) */
+    background-color: rgba(40, 40, 40, 0.9);
+    border-radius: 6px;
+    padding: 8px;
+    border: 1px solid rgba(150, 150, 150, 0.2);
+}
+
+/* Assicura che il testo nel tooltip sia bianco */
 tooltip label {
-    color: white; 
+    color: white;
 }
