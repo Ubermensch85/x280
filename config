@@ -12,7 +12,7 @@
     "margin-right": "15",
     "modules-left": ["custom/arch", "custom/updates", "disk", "cpu", "memory","custom/weather"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["temperature", "custom/gammastep", "backlight", "pulseaudio", "battery", "tray", "clock"],
+    "modules-right": ["temperature", "custom/gammastep", "backlight", "pulseaudio", "battery", "custom/network", "tray", "clock"],
    
 
 
@@ -137,16 +137,14 @@
 
 
 
-    "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-	"icon-size": 21,
-        "format-wifi": "{essid}  ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-disconnected": "Disconnected ⚠",
-	"wifi_click_action": "nm-connection-editor"
-
- },
-
+	"custom/network": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/net-status.sh",
+    "return-type": "json",
+    "interval": 5, // Aggiorna ogni 5 secondi
+    // Azione CLI: garantita che funzioni
+    "on-click": "networkmanager_dmenu" 
+},
 
 
     "pulseaudio": {

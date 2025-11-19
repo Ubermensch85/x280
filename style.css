@@ -13,7 +13,7 @@ window#waybar {
 
 /* CONTENITORE UNIFICATO - Sfondo trasparente uniforme */
 #waybar > box {
-    background-color: rgba(50, 50, 50, 0.65);  /* Grigio semitrasparente */
+    background-color: rgba(50, 50, 50, 0.65);  /* Grigio semitrasparente della Waybar */
     border-radius: 12px;
     margin: 4px 10px;  /* Margini molto ridotti */
     padding: 0 2px;
@@ -72,12 +72,17 @@ window#waybar {
     to { opacity: 0.5; }
 }
 
-/* TOOLTIP */
+/* TOOLTIP UNIFICATO (Calendario, Wi-Fi, ecc.) */
 tooltip {
-    background-color: rgba(50, 50, 50, 0.9);
+    /* Stile uniforme per tutti i tooltip (Wi-Fi, Clock, ecc.). */
+    /* Più scuro (40,40,40) e più opaco (0.9) per garantire la leggibilità del testo bianco. */
+    background-color: rgba(40, 40, 40, 0.9); 
     border-radius: 6px;
     padding: 8px;
+    border: 1px solid rgba(150, 150, 150, 0.2); 
 }
 
-/* MODULO ICONA ARCH */
-
+/* Assicura che il testo nel tooltip (etichette e pulsanti) sia leggibile */
+tooltip label {
+    color: white; 
+}
