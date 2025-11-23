@@ -115,6 +115,11 @@ export VISUAL='micro'
 export TERM='xterm-256color'
 export PATH="$PATH:$HOME/.local/bin"
 
+# Tweak FZF per il Tema Nord ad alto contrasto (risolve problemi di visibilità)
+export FZF_DEFAULT_OPTS="--color=fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C --color=fg+:#2E3440,bg+:#8FBCBB,hl+:#EBCB8B --color=info:#81A1C1,prompt:#8FBCBB,pointer:#BF616A,marker:#A3BE8C --border=none $FZF_DEFAULT_OPTS"
+
+export GEMINI_API_KEY='AIzaSyAWKQ3BpJAhI8pmQFzTzYN7A_z6OzPas8U'
+
 # ======================
 # 8) Qualità di vita
 # ======================
