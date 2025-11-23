@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# PARAMETRI OTTIMALI (basati su test visivi e standard colore)
+NIGHT_TEMP=4000  # Perfetto equilibrio: riduce blu ma non troppo arancione
+DAY_TEMP=6500    # Bianco D65 (standard professionale)
+GAMMA="1:1:1"    # Disabilita modifiche gamma per purezza del filtro
+STATE_FILE=~/.cache/display_state
+
+apply_settings() {
+    pkill -f gammastep
+    if [[ $1 == "night" ]]; then
+        # Filtro attivo: 4000K (effetto visibile ma naturale)
+        gammastep -O $NIGHT_TEMP -g $GAMMA >/dev/null 2>&1 &
+    else
+        # Modalità giorno: colori originali
+        gammastep -O $DAY_TEMP -g $GAMMA >/dev/null 2>&1 &
+    fi
+    echo $1 > $STATE_FILE
+}
+
+case "$1" in
+    "init") apply_settings "day" ;;
+    "toggle")
+        current=$(cat $STATE_FILE 2>/dev/null || echo "day")
+        apply_settings $([[ $current == "day" ]] && echo "night" || echo "day")
+        notify-send "Filtro Luce Blu" "$([[ $current == "day" ]] && echo "ATTIVO (4000K) 🌙" || echo "DISATTIVO (6500K) ☀️")" \
+            -h string:x-canonical-private-synchronous:gammastep
+        pkill -RTMIN+8 waybar
+        ;;
+esac

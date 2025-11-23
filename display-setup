@@ -1,0 +1,6 @@
+#!/bin/bash
+# Imposta gamma per AUO B125HAN02.2
+/usr/bin/gammastep -l 45.4:10.6 -b 1.15 -g 0.92:0.95:1.03 -O 6500 &
+
+# Ottimizza backlight
+echo 600 | sudo tee /sys/class/backlight/intel_backlight/brightness >/dev/null
