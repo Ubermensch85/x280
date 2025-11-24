@@ -4,10 +4,10 @@ CONFIG="$HOME/.config/waybar/config-spotify"
 STYLE="$HOME/.config/waybar/style.css"
 
 while true; do
-    # 1. Trova dinamicamente il nome del player che contiene "brave"
+    # 1. Trova l'istanza di Brave
     PLAYER=$(playerctl -l 2>/dev/null | grep "brave" | head -n 1)
 
-    # Variabile di controllo: 1 se la waybar-spotify è attiva, 0 se no
+    # Verifica se la barra waybar-spotify è già in esecuzione
     if pgrep -f "waybar -c $CONFIG" > /dev/null; then
         BAR_RUNNING=1
     else
@@ -20,18 +20,26 @@ while true; do
             pkill -f "waybar -c $CONFIG"
         fi
     else
-        # 2. Ottieni lo stato (Playing, Paused, Stopped)
+        # 2. Estrai Stato e Album
         STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
+        # Se xesam:album esiste, è musica (Spotify). Se è vuoto, è video (YouTube/Rai).
+        ALBUM=$(playerctl -p "$PLAYER" metadata xesam:album 2>/dev/null)
 
-        # LOGICA: 
-        # Se sta suonando (Playing) E la barra è spenta -> ACCENDI
-        if [[ "$STATUS" == "Playing" ]] && [[ $BAR_RUNNING -eq 0 ]]; then
+        if [[ -n "$ALBUM" ]]; then
+            IS_MUSIC=1
+        else
+            IS_MUSIC=0
+        fi
+
+        # --- AZIONI ---
+
+        # ACCENDI: Sta suonando + È Musica + Barra spenta
+        # RIMOSSO: --name "bottombar" (causava l'errore)
+        if [[ "$STATUS" == "Playing" ]] && [[ $IS_MUSIC -eq 1 ]] && [[ $BAR_RUNNING -eq 0 ]]; then
             waybar -c "$CONFIG" -s "$STYLE" &
         
-        # Se NON sta suonando (Stopped) E la barra è accesa -> SPEGNI
-        # Nota: Ho incluso 'Stopped'. Se metti in pausa (Paused), la barra RIMANE (utile per vedere cosa ascoltavi).
-        # Se vuoi che sparisca anche in pausa, cambia in: [[ "$STATUS" != "Playing" ]]
-        elif [[ "$STATUS" == "Stopped" ]] && [[ $BAR_RUNNING -eq 1 ]]; then
+        # SPEGNI: (Non suona PIÙ) OPPURE (Non è più musica) + Barra accesa
+        elif { [[ "$STATUS" != "Playing" ]] || [[ $IS_MUSIC -eq 0 ]]; } && [[ $BAR_RUNNING -eq 1 ]]; then
             pkill -f "waybar -c $CONFIG"
         fi
     fi
