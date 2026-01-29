@@ -1,178 +1,78 @@
 {
-    // === 1. IMPOSTAZIONI BASE E LAYOUT ===
     "layer": "top",
     "position": "top",
-    "height": 38,
-    "spacing": 4,
-    "margin-top": "15",
-    "margin-bottom": "0",
-    "margin-left": "15",
-    "margin-right": "15",
+    "height": 32,
+    "spacing": 5,
+    "margin-top": 3,
+    "margin-left": 8,
+    "margin-right": 8,
 
-    // Ordine dei moduli (Tray è l'ultimo per gestione)
-    "modules-left": [
-        "custom/arch", 
-        "custom/updates", 
-        "disk", 
-        "cpu", 
-        "memory",
-        "custom/weather"
-    ],
+    "modules-left": ["custom/arch", "custom/updates", "disk", "cpu", "memory", "custom/weather"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": [
-        "temperature", 
-        "custom/gammastep", 
-        "backlight", 
-        "pulseaudio", 
-        "battery", 
-        "custom/network", 
-        "tray", 
-        "clock"
-    ],
+    "modules-right": ["temperature", "custom/gammastep", "backlight", "pulseaudio", "battery", "network", "tray", "clock"],
 
-    // === 2. MODULI HYPRLAND ===
     "hyprland/workspaces": {
         "format": "{icon}",
         "format-icons": {
             "1": "I", "2": "II", "3": "III", "4": "IV", "5": "V",
             "6": "VI", "7": "VII", "8": "VIII", "9": "IX", "10": "X"
-        },
-        "all-outputs": false,
-        "active-only": false,
-        "on-click": "activate"
-    },
-
-    "hyprland/window": {
-        "format": "{}",
-        "separate-outputs": true
-    },
-    
-    // === 3. MODULI DI SISTEMA ===
-    "cpu": {
-        "format": "{usage}%"
-    },
-    "memory": {
-        "format": "{}% 🧠"
-    },
-    "disk": {
-        "format": "{}% 💿"
-    },
-    "temperature": {
-        // "critical-threshold": 80,
-        "format": "{temperatureC}°C "
-    },
-    "backlight": {
-        "device": "intel_backlight",
-        "format": "{percent}% {icon}",
-        "icon-size": 21,
-        "format-icons": ["🌑", "💡"]
-    },
-
-    // === 4. MODULO BATTERIA ===
-    "battery": {
-        "bat": "BAT0",
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ⚡",
-        "format-discharging": "{capacity}% {icon}",
-        "format-full": "{capacity}%🔋",
-        "tooltip-format": "{power}W",
-        "icon-size": 21,
-        "format-icons": ["", "", "", "", ""]
-    },
-
-    // === 5. MODULO AUDIO ===
-    "pulseaudio": {
-        "icon-size": 21,
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
-        "format-muted": "🔇",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["🔉", "🔊"]
-        },
-        "on-click": "pavucontrol"
-    },
-
-    // === 6. MODULO RETE (CUSTOM/KISS) ===
-    "custom/network": {
-        "format": "{}",
-        "exec": "~/.config/waybar/scripts/net-status.sh",
-        "return-type": "json",
-        "interval": 5, 
-        // Lancia il menu Wofi, assumendo che userai un wrapper o argomenti per il look verticale
-        "on-click": "networkmanager_dmenu"
-    },
-
-    // === 7. MODULO OROLOGIO E CALENDARIO ===
-    "clock": {
-        "format": "⌚ {:%H:%M}",
-        "format-alt": "⌚ {:%d-%m-%Y}",
-        "interval": 1,
-        "tooltip-format": "📅 <tt>{calendar}</tt>",
-        "calendar": {
-            "mode": "month",
-            "mode-mon-col": 2,
-            "on-scroll": 1,
-            "on-click-right": "mode",
-            "format": {
-                "months": "<span color='#fffffe'><b>{}</b></span>",
-                "days": "<span color='#efefef'><b>{}</b></span>",
-                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-                "today": "<span color='#ff0000'><b><u>{}</u></b></span>"
-            }
-        },
-        "actions": {
-            "on-click-right": "mode",
-            "on-click-forward": "tz_up",
-            "on-click-backward": "tz_down",
-            "on-scroll-up": "shift_up",
-            "on-scroll-down": "shift_down"
         }
     },
-    
-    // === 8. MODULI CUSTOM VARI ===
+
     "custom/arch": {
-        "format": "  {}  ",
-        "interval": 3600,
-        "exec": "echo -e '\\uf303'",
+        "format": " 󰣇 ",
         "tooltip": false,
-        "on-click": "~/.config/waybar/scripts/show_arch_info.sh"
+        "on-click": "python ~/.config/waybar/scripts/show_arch_info.sh"
     },
-    "custom/weather": {
-        "format": "{}°",
-        "tooltip": true,
+
+    "custom/updates": {
+        "format": "󱑤  {}",
         "interval": 900,
-        "exec": "wttrbar --location Perugia",
+        "exec": "checkupdates 2>/dev/null | wc -l",
+        "exec-if": "exit 0",
+        "on-click": "kitty -e yay -Syu --devel"
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar --location Perugia --lang it --hide-conditions --nerd",
         "return-type": "json"
     },
+
     "custom/gammastep": {
         "exec": "~/.config/waybar/scripts/gammastep_status.sh",
         "return-type": "json",
-        "interval": 5,
-        "tooltip": false
+        "interval": 5
     },
-    "custom/updates": {
-        "format": "{} {icon}",
-        "return-type": "json",
-        "format-icons": {
-            "has-updates": " 🛠️",
-            "updated": "🐧"
-        },
-        "exec-if": "which waybar-module-pacman-updates",
-        "exec": "waybar-module-pacman-updates"
+
+    "clock": {
+        "format": "  {:%H:%M}",
+        "format-alt": "{:%d-%m-%Y}",
+        "interval": 1,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#4d97ff'><b>{}</b></span>",
+                "today": "<span color='#ff6384'><b><u>{}</u></b></span>"
+            }
+        }
     },
-    
-    // === 9. TRAY (System Tray) ===
-    "tray": {
-        "spacing": 10
-    }
+
+    "network": {
+        "format-wifi": "󰤨 ",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰤮 "
+    },
+
+    "cpu": { "format": "  {usage}%" },
+    "memory": { "format": "󰘚  {percentage}%" },
+    "disk": { "format": "󰋊  {percentage_used}%" },
+    "temperature": { "format": "  {temperatureC}°C" },
+    "backlight": { "format": "{icon}  {percent}%", "format-icons": ["󰃞", "󰃟", "󰃠"] },
+    "battery": { "format": "{icon}  {capacity}%", "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] },
+    "pulseaudio": { "format": "{icon}  {volume}%", "on-click": "pavucontrol" }
 }
