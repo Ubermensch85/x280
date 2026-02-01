@@ -73,6 +73,20 @@
     "disk": { "format": "󰋊  {percentage_used}%" },
     "temperature": { "format": "  {temperatureC}°C" },
     "backlight": { "format": "{icon}  {percent}%", "format-icons": ["󰃞", "󰃟", "󰃠"] },
-    "battery": { "format": "{icon}  {capacity}%", "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] },
+     "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 18,
+            "critical": 5
+        },
+        "format": "{icon}",
+        "format-charging": "",
+        "format-plugged": "",
+        "format-alt": "{power}W",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{power}W - {capacity}%",
+    },
     "pulseaudio": { "format": "{icon}  {volume}%", "on-click": "pavucontrol" }
 }
