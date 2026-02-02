@@ -1,0 +1,1 @@
+ATTR{idVendor}=="0bda", ATTR{idProduct}=="0316", TEST=="power/control", ATTR{power/control}="auto"

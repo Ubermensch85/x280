@@ -1,0 +1,1 @@
+SUBSYSTEM=="video4linux", KERNEL=="video*", ATTR{name}=="Chicony Integrated Camera", RUN+="/usr/bin/v4l2-ctl --set-ctrl=power_line_frequency=1 --set-ctrl=sharpness=3"

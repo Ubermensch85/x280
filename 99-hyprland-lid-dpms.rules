@@ -1,0 +1,5 @@
+# Quando il coperchio viene chiuso, spegne il display
+ACTION=="change", SUBSYSTEM=="power_supply", KERNEL=="LID", ATTR{state}=="closed", ENV{DISPLAY}=":0", ENV{XDG_RUNTIME_DIR}="/run/user/1000", RUN+="/bin/su -l ubermensch -c '/usr/bin/hyprctl dispatch dpms off'"
+
+# Quando il coperchio viene aperto, riaccende il display
+ACTION=="change", SUBSYSTEM=="power_supply", KERNEL=="LID", ATTR{state}=="open", ENV{DISPLAY}=":0", ENV{XDG_RUNTIME_DIR}="/run/user/1000", RUN+="/bin/su -l ubermensch -c '/usr/bin/hyprctl dispatch dpms on'"
