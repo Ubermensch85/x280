@@ -26,12 +26,14 @@
     },
 
     "custom/updates": {
-        "format": "󱑤  {}",
-        "interval": 900,
-        "exec": "checkupdates 2>/dev/null | wc -l",
-        "exec-if": "exit 0",
-        "on-click": "kitty -e yay -Syu --devel"
-    },
+    "format": "{}",
+    "interval": 60,
+    "exec": "/usr/local/bin/check-updates.sh",
+    "exec-if": "exit 0",
+    "on-click": "kitty -e yay -Syu --devel",
+    "on-click-right": "pkill -RTMIN+8 waybar",
+    "signal": 8
+},
 
     "custom/weather": {
         "format": "{}",
@@ -65,28 +67,87 @@
     "network": {
         "format-wifi": "󰤨 ",
         "format-ethernet": "󰈀 ",
-        "format-disconnected": "󰤮 "
+        "format-disconnected": "󰤮 ",
+		"tooltip-format-wifi": "WiFi: {essid}\nSegnale: {signalStrength}%\nIP: {ipaddr}",
+    "tooltip-format-ethernet": "Ethernet\nIP: {ipaddr}",
+    "tooltip-format-disconnected": "Nessuna connessione"
     },
 
     "cpu": { "format": "  {usage}%" },
     "memory": { "format": "󰘚  {percentage}%" },
     "disk": { "format": "󰋊  {percentage_used}%" },
     "temperature": { "format": "  {temperatureC}°C" },
-    "backlight": { "format": "{icon}  {percent}%", "format-icons": ["󰃞", "󰃟", "󰃠"] },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon}   {percent}%",
+		"tooltip-format": "{percent}%",
+		"format-icons": ["󰃞", "󰃟", "󰃠"] 
+    },    
      "battery": {
         "states": {
             // "good": 95,
             "warning": 18,
             "critical": 5
         },
-        "format": "{icon}",
-        "format-charging": "",
-        "format-plugged": "",
+        "format": "{icon}    {capacity}%",
+        "format-charging": "    {capacity}%",
+        "format-plugged": "   {capacity}%",
         "format-alt": "{power}W",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""],
         "tooltip-format": "{power}W - {capacity}%",
     },
-    "pulseaudio": { "format": "{icon}  {volume}%", "on-click": "pavucontrol" }
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "pulseaudio#mic": {
+        "scroll-step": 10, // %, can be a float
+        "format": "{format_source}",
+        "format-bluetooth": "{icon}",
+        //"format-bluetooth-muted": " {icon}",
+        "format-muted": "<span font='Font Awesome 7 Free'></span> ", 
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "tooltip-format": "{volume}%",
+        },
+
+    "pulseaudio": {
+        "scroll-step": 10, // %, can be a float
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "{icon}",
+        //"format-bluetooth-muted": " {icon}",
+        "format-muted": "󰝟 ",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol",
+        "tooltip-format": "{volume}%",
+        }
 }
