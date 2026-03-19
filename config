@@ -11,37 +11,50 @@
     "modules-center": ["hyprland/workspaces"],
     "modules-right": ["temperature", "custom/gammastep", "backlight", "pulseaudio", "battery", "network", "tray", "clock"],
 
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "format-icons": {
-            "1": "I", "2": "II", "3": "III", "4": "IV", "5": "V",
-            "6": "VI", "7": "VII", "8": "VIII", "9": "IX", "10": "X"
-        }
-    },
+   "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+        "1": "<span font='DejaVu Serif 11'>Ⅰ</span>",
+        "2": "<span font='DejaVu Serif 11'>Ⅱ</span>",
+        "3": "<span font='DejaVu Serif 11'>Ⅲ</span>",
+        "4": "<span font='DejaVu Serif 11'>Ⅳ</span>",
+        "5": "<span font='DejaVu Serif 11'>Ⅴ</span>",
+        "6": "<span font='DejaVu Serif 11'>Ⅵ</span>",
+        "7": "<span font='DejaVu Serif 11'>Ⅶ</span>",
+        "8": "<span font='DejaVu Serif 11'>Ⅷ</span>",
+        "9": "<span font='DejaVu Serif 11'>Ⅸ</span>",
+        "10": "<span font='DejaVu Serif 11'>Ⅹ</span>"
+    }
+},
 
     "custom/arch": {
-        "format": " 󰣇 ",
+    "format": " <span size='x-large'>󰣇</span> ",
         "tooltip": false,
-        "on-click": "python ~/.config/waybar/scripts/show_arch_info.sh"
+        "on-click": "python3 ~/.config/waybar/scripts/show_arch_info.py"
     },
+
+"tray": {
+    "ignore": ["innu", "Innu"]
+},
+
 
     "custom/updates": {
     "format": "{}",
     "interval": 60,
     "exec": "/usr/local/bin/check-updates.sh",
     "exec-if": "exit 0",
-    "on-click": "kitty -e yay -Syu --devel",
+    "on-click": "alacritty -e bash -c '~/update.sh; read -p \"Premi Enter per chiudere...\"'",
     "on-click-right": "pkill -RTMIN+8 waybar",
     "signal": 8
 },
 
     "custom/weather": {
-    "format": "{}",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "data=$(curl -s 'https://api.open-meteo.com/v1/forecast?latitude=43.11&longitude=12.39&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto'); temp=$(echo $data | jq '.current_weather.temperature'); code=$(echo $data | jq '.current_weather.weathercode'); max=$(echo $data | jq '.daily.temperature_2m_max[0]'); min=$(echo $data | jq '.daily.temperature_2m_min[0]'); case $code in 0) icon='󰖙' ;; 1|2|3) icon='󰖕' ;; 45|48) icon='󰖑' ;; 51|53|55|61|63|65) icon='󰖗' ;; 71|73|75|77|85|86) icon='󰼶' ;; 95|96|99) icon='󰙪' ;; *) icon='󰖐' ;; esac; printf '{\"text\": \"%s  %s°C\", \"tooltip\": \"Min: %s°C | Max: %s°C\"}' \"$icon\" \"$temp\" \"$min\" \"$max\"",
-    "return-type": "json"
-},
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "~/.config/waybar/scripts/weather.sh",
+        "return-type": "json"
+    },
 
     "custom/gammastep": {
         "exec": "~/.config/waybar/scripts/gammastep_status.sh",
@@ -70,42 +83,42 @@
         "format-disconnected": "󰤮 ",
 		"tooltip-format-wifi": "WiFi: {essid}\nSegnale: {signalStrength}%\nIP: {ipaddr}",
     "tooltip-format-ethernet": "Ethernet\nIP: {ipaddr}",
-    "tooltip-format-disconnected": "Nessuna connessione"
+    "tooltip-format-disconnected": "Nessuna connessione",
+	"on-click": "networkmanager_dmenu"
     },
+
 
     "cpu": { "format": "  {usage}%" },
     "memory": { "format": "󰘚  {percentage}%" },
     "disk": { "format": "󰋊  {percentage_used}%" },
     "temperature": { "format": "  {temperatureC}°C" },
+    
     "backlight": {
-        // "device": "acpi_video1",
         "format": "{icon}   {percent}%",
-		"tooltip-format": "{percent}%",
-		"format-icons": ["󰃞", "󰃟", "󰃠"] 
+        "tooltip-format": "{percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"] 
     },    
-     "battery": {
-        "states": {
-            // "good": 95,
-            "warning": 18,
-            "critical": 5
-        },
-        "format": "{icon}    {capacity}%",
-        "format-charging": "    {capacity}%",
-        "format-plugged": "   {capacity}%",
-        "format-alt": "{power}W",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""],
-        "tooltip-format": "{power}W - {capacity}%",
+    
+    "battery": {
+    "states": {
+        "warning": 18,
+        "critical": 5
     },
+    "format": "{icon}    {capacity}%",
+    "format-charging": "    {capacity}%",
+    "format-plugged": "   {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{power}W "
+},
+
     "battery#bat2": {
         "bat": "BAT2"
     },
+
     "pulseaudio#mic": {
-        "scroll-step": 10, // %, can be a float
+        "scroll-step": 10,
         "format": "{format_source}",
         "format-bluetooth": "{icon}",
-        //"format-bluetooth-muted": " {icon}",
         "format-muted": "<span font='Font Awesome 7 Free'></span> ", 
         "format-source": "",
         "format-source-muted": "",
@@ -116,21 +129,16 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": [
-                "",
-                "",
-                ""
-            ]
+            "default": ["", "", ""]
         },
         "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-        "tooltip-format": "{volume}%",
-        },
+        "tooltip-format": "{volume}%"
+    },
 
     "pulseaudio": {
-        "scroll-step": 10, // %, can be a float
+        "scroll-step": 10,
         "format": "{icon}  {volume}%",
         "format-bluetooth": "{icon}",
-        //"format-bluetooth-muted": " {icon}",
         "format-muted": "󰝟 ",
         "format-source": "",
         "format-source-muted": "",
@@ -141,13 +149,9 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": [
-                "",
-                "",
-                ""
-            ]
+            "default": ["", "", ""]
         },
         "on-click": "pavucontrol",
-        "tooltip-format": "{volume}%",
-        }
+        "tooltip-format": "{volume}%"
+    }
 }
